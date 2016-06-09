@@ -1,8 +1,9 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Card &ndash; the better way to collect credit cards</title>
+    <title>Card View&ndash; Display your card</title>
     <meta name="viewport" content="initial-scale=1">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 </head>
 <body>
     <style>
@@ -21,26 +22,102 @@
             display: block;
         }
 
+
+        .currentCardClass{
+            margin-top:0px;
+        }
+
+
+        .cardClass {
+            -webkit-backface-visibility: hidden;
+            -webkit-transform-style: preserve-3d;
+          transition: transform 0.5s;
+        }
+
+
+
+        .cardClass:hover {
+            -webkit-backface-visibility: hidden;
+            -webkit-transform-style: preserve-3d;
+           -webkit-transform: translate(0px,-20px);
+            -moz-transform: translate(0px,-20px);
+            -o-transform: translate(0px,-20px);
+            -ms-transform: translate(0px,-20px);
+            transform: translate(0px,-20px);
+        }
     </style>
     <div class="demo-container">
-        <div class="card-wrapper"></div>
+        <div id="card-wrapper0" class="cardClass" style="z-index: 100"></div>
 
         <div class="form-container active">
             <form action="">
-                <input placeholder="Card number" type="text" name="number">
-                <input placeholder="Full name" type="text" name="name">
-                <input placeholder="MM/YY" type="text" name="expiry">
-                <input placeholder="CVC" type="text" name="cvc">
+            </form>
+        </div>
+
+        <div id="card-wrapper1" class="cardClass" style="z-index: 101;"></div>
+
+        <div class="form-container active">
+            <form action="">
+            </form>
+        </div>
+
+        <div id="card-wrapper2" class="cardClass" style="z-index: 102"></div>
+
+        <div class="form-container active">
+            <form action="">
             </form>
         </div>
     </div>
 
     <script src="../lib/js/card.js"></script>
     <script>
-        new Card({
+        var newCard = new Card({
             form: document.querySelector('form'),
-            container: '.card-wrapper'
+            container: '#card-wrapper0',
+            placeholders: {
+                number: '6011 •••• •••• ••••',
+                name: 'Wei Zhang',
+                expiry: '04/19',
+                cvc: '421   '
+            },
         });
+
+        newCard.initCardType('visa');
+
+         var newCard2 = new Card({
+            form: document.querySelector('form'),
+            container: '#card-wrapper1',
+            placeholders: {
+                number: '4011 •••• •••• ••••',
+                name: 'Wei Zhang',
+                expiry: '02/21',
+                cvc: '221   '
+            },
+        });
+
+        newCard2.initCardType('discover');
+
+        var newCard3 = new Card({
+            form: document.querySelector('form'),
+            container: '#card-wrapper2',
+            placeholders: {
+                number: '5011 •••• •••• ••••',
+                name: 'Wei Zhang',
+                expiry: '02/21',
+                cvc: '221   '
+            },
+        });
+
+        newCard3.initCardType('mastercard');
+
+        $('.cardClass').on('click',function(){
+            $(this).removeClass('cardClass');
+            $(this).addClass('currentCardClass');
+
+            $('.cardClass').fadeOut('slow');
+
+        });
+
     </script>
 </body>
 </html>
